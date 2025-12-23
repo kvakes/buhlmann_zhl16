@@ -1,8 +1,4 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
-library;
+library buhlmann_zhl16;
 
-export 'src/buhlmann_zhl16_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/zhl16b_n2.dart';
+export 'src/profile.dart';

@@ -1,39 +1,24 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# buhlmann_zhl16
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Nitrogen-only Bühlmann ZHL-16B tissue model utilities for dive planning.
 
 ## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+- ZHL-16B N2 compartments
+- Square segments (constant depth for duration)
+- No ascent/descent (Schreiner) yet
+- No ceilings / gradient factors / deco schedule yet
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
 ```dart
-const like = 'sample';
-```
+import 'package:buhlmann_zhl16/buhlmann_zhl16.dart';
 
-## Additional information
+void main() {
+  final segs = [
+    const SquareSegment(depthMeters: 30, durationMinutes: 20),
+    const SquareSegment(depthMeters: 10, durationMinutes: 10),
+  ];
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+  final model = Zhl16bN2.runSquareProfile(segs);
+  print(model.maxPn2());
+}
