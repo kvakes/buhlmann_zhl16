@@ -33,23 +33,24 @@ class Zhl16bN2 {
     return dryGasAta * fn2;
   }
 
-  /// ZHL-16B N2 compartment constants.
+  /// ZHL-16C N2 compartment constants
+  /// Source: https://github.com/subsurface/subsurface/blob/28ad7132d2283a3fc06872de6526bc19c077d203/core/deco.cpp#L86
   static const List<_Comp> comps = [
-    _Comp(halfTimeMin: 4.0, a: 1.2599, b: 0.5050),
-    _Comp(halfTimeMin: 8.0, a: 1.0000, b: 0.6514),
-    _Comp(halfTimeMin: 12.5, a: 0.8618, b: 0.7222),
-    _Comp(halfTimeMin: 18.5, a: 0.7562, b: 0.7825),
-    _Comp(halfTimeMin: 27.0, a: 0.6667, b: 0.8126),
-    _Comp(halfTimeMin: 38.3, a: 0.5933, b: 0.8434),
-    _Comp(halfTimeMin: 54.3, a: 0.5282, b: 0.8693),
-    _Comp(halfTimeMin: 77.0, a: 0.4701, b: 0.8910),
-    _Comp(halfTimeMin: 109.0, a: 0.4187, b: 0.9092),
-    _Comp(halfTimeMin: 146.0, a: 0.3798, b: 0.9222),
-    _Comp(halfTimeMin: 187.0, a: 0.3497, b: 0.9319),
-    _Comp(halfTimeMin: 239.0, a: 0.3223, b: 0.9403),
-    _Comp(halfTimeMin: 305.0, a: 0.2971, b: 0.9477),
-    _Comp(halfTimeMin: 390.0, a: 0.2737, b: 0.9544),
-    _Comp(halfTimeMin: 498.0, a: 0.2523, b: 0.9602),
+    _Comp(halfTimeMin: 5.0,   a: 1.1696, b: 0.5578),
+    _Comp(halfTimeMin: 8.0,   a: 1.0,    b: 0.6514),
+    _Comp(halfTimeMin: 12.5,  a: 0.8618, b: 0.7222),
+    _Comp(halfTimeMin: 18.5,  a: 0.7562, b: 0.7825),
+    _Comp(halfTimeMin: 27.0,  a: 0.62,   b: 0.8126),
+    _Comp(halfTimeMin: 38.3,  a: 0.5043, b: 0.8434),
+    _Comp(halfTimeMin: 54.3,  a: 0.441,  b: 0.8693),
+    _Comp(halfTimeMin: 77.0,  a: 0.4,    b: 0.8910),
+    _Comp(halfTimeMin: 109.0, a: 0.375,  b: 0.9092),
+    _Comp(halfTimeMin: 146.0, a: 0.35,   b: 0.9222),
+    _Comp(halfTimeMin: 187.0, a: 0.3295, b: 0.9319),
+    _Comp(halfTimeMin: 239.0, a: 0.3065, b: 0.9403),
+    _Comp(halfTimeMin: 305.0, a: 0.2835, b: 0.9477),
+    _Comp(halfTimeMin: 390.0, a: 0.261,  b: 0.9544),
+    _Comp(halfTimeMin: 498.0, a: 0.248,  b: 0.9602),
     _Comp(halfTimeMin: 635.0, a: 0.2327, b: 0.9653),
   ];
 
