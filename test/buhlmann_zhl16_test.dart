@@ -2,43 +2,97 @@ import 'package:test/test.dart';
 import 'package:buhlmann_zhl16/buhlmann_zhl16.dart';
 
 void main() {
-  test('Surface equilibrium PN2 is stable', () {
-    final m = Zhl16bN2.atSurfaceEquilibrium();
-    final before = List<double>.from(m.pn2);
+  group('Zhl16cN2 – initialization', () {
+    test('surface equilibrium initializes 16 compartments', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      fail('Not implemented');
+    });
 
-    // 60 minutes at surface breathing air should remain at equilibrium.
-    m.applySquareSegment(depthMeters: 0, durationMinutes: 60);
-
-    for (var i = 0; i < 16; i++) {
-      expect((m.pn2[i] - before[i]).abs() < 1e-9, isTrue);
-    }
+    test('surface equilibrium breathing air has no decompression ceiling', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      fail('Not implemented');
+    });
   });
 
-  test('PN2 increases during bottom time at depth', () {
-    final m = Zhl16bN2.atSurfaceEquilibrium();
-    final beforeMax = m.maxPn2();
+  group('Zhl16cN2 – square segment kinetics', () {
+    test('square segment at depth increases tissue PN2', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 30, durationMinutes: 10);
+      fail('Not implemented');
+    });
 
-    m.applySquareSegment(depthMeters: 30, durationMinutes: 20);
+    test('square segment does not overshoot inspired N2 pressure', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 30, durationMinutes: 30);
+      fail('Not implemented');
+    });
 
-    expect(m.maxPn2(), greaterThan(beforeMax));
+    test('long constant-depth exposure approaches equilibrium', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 30, durationMinutes: 1000);
+      fail('Not implemented');
+    });
   });
 
-  test('Running a profile equals applying segments sequentially', () {
-    final segs = [
-      const SquareSegment(depthMeters: 18, durationMinutes: 20),
-      const SquareSegment(depthMeters: 10, durationMinutes: 10),
-    ];
+  group('Zhl16cN2 – offgassing and surface intervals', () {
+    test('surface interval after deep dive reduces tissue PN2', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 30, durationMinutes: 30);
+      model.applySquareSegment(depthMeters: 0, durationMinutes: 60);
+      fail('Not implemented');
+    });
 
-    final a = Zhl16bN2.runSquareProfile(segs);
+    test('surface interval does not undershoot surface inspired N2', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 30, durationMinutes: 30);
+      model.applySquareSegment(depthMeters: 0, durationMinutes: 240);
+      fail('Not implemented');
+    });
+  });
 
-    final b = Zhl16bN2.atSurfaceEquilibrium();
-    for (final s in segs) {
-      b.applySquareSegment(
-          depthMeters: s.depthMeters, durationMinutes: s.durationMinutes);
-    }
+  group('Zhl16cN2 – decompression ceiling', () {
+    test('aggressive exposure produces a non-zero ceiling', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 40, durationMinutes: 40);
+      fail('Not implemented');
+    });
 
-    for (var i = 0; i < 16; i++) {
-      expect((a.pn2[i] - b.pn2[i]).abs() < 1e-12, isTrue);
-    }
+    test('ceiling decreases after offgassing at surface', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 40, durationMinutes: 40);
+      model.applySquareSegment(depthMeters: 0, durationMinutes: 120);
+      fail('Not implemented');
+    });
+
+    test('overall ceiling equals max of per-compartment ceilings', () {
+      final model = Zhl16cN2.atSurfaceEquilibrium();
+      model.applySquareSegment(depthMeters: 40, durationMinutes: 40);
+      fail('Not implemented');
+    });
+  });
+
+  group('Zhl16cN2 – repetitive dive behavior', () {
+    test('repetitive dive has higher tissue loading than fresh dive', () {
+      final fresh = Zhl16cN2.runSquareProfile([
+        SquareSegment(depthMeters: 18, minutes: 40),
+      ]);
+
+      final repetitive = Zhl16cN2.atSurfaceEquilibrium();
+      repetitive.applySquareSegment(depthMeters: 30, durationMinutes: 25);
+      repetitive.applySquareSegment(depthMeters: 0, durationMinutes: 60);
+      repetitive.applySquareSegment(depthMeters: 18, durationMinutes: 40);
+
+      fail('Not implemented');
+    });
+  });
+
+  group('SquareSegment – domain constraints', () {
+    test('depth must be non-negative', () {
+      fail('Not implemented');
+    });
+
+    test('duration must be positive', () {
+      fail('Not implemented');
+    });
   });
 }
