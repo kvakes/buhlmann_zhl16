@@ -1,21 +1,21 @@
-/// Domain models for a minimal recreational dive planning library.
-///
-/// Conventions:
-/// - Depth in meters (>= 0)
-/// - Duration in minutes (> 0)
-/// - Gas fraction values are 0..1
-///
-/// Surface intervals are represented explicitly as [SurfaceInterval] steps.
+// Domain models for a minimal recreational dive planning library.
+//
+// Conventions:
+// - Depth in meters (>= 0)
+// - Duration in minutes (> 0)
+// - Gas fraction values are 0..1
+//
+// Surface intervals are represented explicitly as [SurfaceInterval] steps.
 
-/// A step within a dive timeline.
+// A step within a dive timeline.
 sealed class DiveStep {
   const DiveStep();
 
-  /// Duration in minutes (> 0).
+  // Duration in minutes (> 0).
   int get minutes;
 }
 
-/// A constant-depth segment (square profile piece).
+// A constant-depth segment (square profile piece).
 final class SquareSegment extends DiveStep {
   final int depthMeters;
   @override
@@ -39,7 +39,7 @@ final class SquareSegment extends DiveStep {
   }
 }
 
-/// A surface interval (time at 0 meters).
+// A surface interval (time at 0 meters).
 final class SurfaceInterval extends DiveStep {
   @override
   final int minutes;
@@ -51,23 +51,24 @@ final class SurfaceInterval extends DiveStep {
   }
 }
 
-/// A single dive timeline composed of sequential [DiveStep]s.
-///
-/// Note: With explicit surface intervals, a "Plan" can be a single [Dive]
-/// containing multiple steps, or you can still group steps into multiple [Dive]s
-/// depending on your UI. The model supports both.
+// A single dive timeline composed of sequential [DiveStep]s.
+//
+// Note: With explicit surface intervals, a "Plan" can be a single [Dive]
+// containing multiple steps, or you can still group steps into multiple [Dive]s
+// depending on your UI. The model supports both.
 final class Dive {
   final List<DiveStep> steps;
 
   Dive({required List<DiveStep> steps}) : steps = List.unmodifiable(steps) {
     if (this.steps.isEmpty) {
-      throw ArgumentError.value(steps, 'steps', 'A dive must have at least one step.');
+      throw ArgumentError.value(
+          steps, 'steps', 'A dive must have at least one step.');
     }
   }
 
   int get totalMinutes => steps.fold<int>(0, (sum, s) => sum + s.minutes);
 
-  /// Max depth among square segments; surface intervals contribute 0.
+  // Max depth among square segments; surface intervals contribute 0.
   int get maxDepthMeters => steps.fold<int>(0, (m, s) {
         if (s is SquareSegment) {
           return s.depthMeters > m ? s.depthMeters : m;
@@ -80,24 +81,26 @@ final class Dive {
       'Dive(steps: ${steps.length}, totalMinutes: $totalMinutes, maxDepthMeters: $maxDepthMeters)';
 }
 
-/// A plan composed of sequential dives.
-///
-/// Surface intervals can be placed:
-/// - inside a Dive (as [SurfaceInterval] steps), and/or
-/// - between Dives (as a dedicated Dive containing only a [SurfaceInterval]),
-/// depending on your chosen UX. This library does not enforce either.
+// A plan composed of sequential dives.
+//
+// Surface intervals can be placed:
+// - inside a Dive (as [SurfaceInterval] steps), and/or
+// - between Dives (as a dedicated Dive containing only a [SurfaceInterval]),
+// depending on your chosen UX. This library does not enforce either.
 final class Plan {
   final List<Dive> dives;
 
   Plan({required List<Dive> dives}) : dives = List.unmodifiable(dives) {
     if (this.dives.isEmpty) {
-      throw ArgumentError.value(dives, 'dives', 'A plan must have at least one dive.');
+      throw ArgumentError.value(
+          dives, 'dives', 'A plan must have at least one dive.');
     }
   }
 
   int get totalMinutes => dives.fold<int>(0, (sum, d) => sum + d.totalMinutes);
 
-  int get maxDepthMeters => dives.fold<int>(0, (m, d) => d.maxDepthMeters > m ? d.maxDepthMeters : m);
+  int get maxDepthMeters =>
+      dives.fold<int>(0, (m, d) => d.maxDepthMeters > m ? d.maxDepthMeters : m);
 
   @override
   String toString() =>

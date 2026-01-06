@@ -5,40 +5,99 @@ void main() {
   group('SquareSegment – construction and invariants', () {
     test('constructs with valid depth and duration', () {
       final s = SquareSegment(depthMeters: 18, minutes: 40);
-      fail('Not implemented');
+
+      expect(s.depthMeters, equals(18));
+      expect(s.minutes, equals(40));
+      expect(s.fn2, equals(0.79));
     });
 
     test('depth must be non-negative', () {
-      // Expect: constructor rejects negative depth
-      // (either throws ArgumentError/RangeError, or asserts in debug)
-      fail('Not implemented');
+      expect(
+        () => SquareSegment(depthMeters: -1, minutes: 10),
+        throwsArgumentError,
+      );
     });
 
     test('duration must be positive', () {
-      // Expect: constructor rejects 0 and negative duration
-      fail('Not implemented');
+      expect(
+        () => SquareSegment(depthMeters: 10, minutes: 0),
+        throwsArgumentError,
+      );
+
+      expect(
+        () => SquareSegment(depthMeters: 10, minutes: -5),
+        throwsArgumentError,
+      );
     });
   });
 
-  group('SquareSegment – value semantics', () {
-    test('is immutable / fields are final', () {
-      // This is effectively a compile-time guarantee; keep as a “contract test”
-      // or delete later if you prefer not to test language semantics.
-      fail('Not implemented');
+  group('SurfaceInterval – construction and invariants', () {
+    test('constructs with positive duration', () {
+      final si = SurfaceInterval(minutes: 60);
+      expect(si.minutes, equals(60));
+    });
+
+    test('duration must be positive', () {
+      expect(
+        () => SurfaceInterval(minutes: 0),
+        throwsArgumentError,
+      );
+
+      expect(
+        () => SurfaceInterval(minutes: -10),
+        throwsArgumentError,
+      );
     });
   });
 
-  group('Profile helpers – optional minimal API', () {
-    test('a dive is a list of segments (if you add Dive)', () {
-      // Placeholder for when you introduce:
-      // class Dive { List<SquareSegment> segments; ... }
-      fail('Not implemented');
+  group('Dive – aggregation semantics', () {
+    test('total minutes is sum of steps', () {
+      final dive = Dive(steps: [
+        SquareSegment(depthMeters: 18, minutes: 40),
+        SurfaceInterval(minutes: 60),
+        SquareSegment(depthMeters: 12, minutes: 30),
+      ]);
+
+      expect(dive.totalMinutes, equals(130));
     });
 
-    test('a plan is a list of dives (if you add Plan)', () {
-      // Placeholder for when you introduce:
-      // class Plan { List<Dive> dives; ... }
-      fail('Not implemented');
+    test('max depth considers only square segments', () {
+      final dive = Dive(steps: [
+        SurfaceInterval(minutes: 30),
+        SquareSegment(depthMeters: 20, minutes: 25),
+        SquareSegment(depthMeters: 12, minutes: 40),
+      ]);
+
+      expect(dive.maxDepthMeters, equals(20));
+    });
+  });
+
+  group('Plan – aggregation semantics', () {
+    test('total minutes is sum of dives', () {
+      final plan = Plan(dives: [
+        Dive(steps: [
+          SquareSegment(depthMeters: 18, minutes: 40),
+          SurfaceInterval(minutes: 60),
+        ]),
+        Dive(steps: [
+          SquareSegment(depthMeters: 12, minutes: 50),
+        ]),
+      ]);
+
+      expect(plan.totalMinutes, equals(150));
+    });
+
+    test('max depth is max across dives', () {
+      final plan = Plan(dives: [
+        Dive(steps: [
+          SquareSegment(depthMeters: 18, minutes: 40),
+        ]),
+        Dive(steps: [
+          SquareSegment(depthMeters: 30, minutes: 25),
+        ]),
+      ]);
+
+      expect(plan.maxDepthMeters, equals(30));
     });
   });
 }

@@ -20,7 +20,8 @@ class Zhl16cN2 {
 
   /// Ambient pressure in ATA at a given depth in meters (simple seawater approximation).
   /// 10 m seawater ≈ +1 ATA.
-  static double ambientAtaAtDepthMeters(int depthMeters) => 1.0 + (depthMeters / 10.0);
+  static double ambientAtaAtDepthMeters(int depthMeters) =>
+      1.0 + (depthMeters / 10.0);
 
   /// Inspired nitrogen pressure (ATA), simplified alveolar model:
   /// P_iN2 = (P_amb - P_H2O) * FN2
@@ -35,25 +36,26 @@ class Zhl16cN2 {
 
   /// ZHL-16C N2 compartment constants.
   ///
-  /// Source (commonly used reference implementation):
-  /// Subsurface deco.cpp
-  static const List<_Comp> comps = [
-    _Comp(halfTimeMin: 5.0, a: 1.1696, b: 0.5578),
-    _Comp(halfTimeMin: 8.0, a: 1.0, b: 0.6514),
-    _Comp(halfTimeMin: 12.5, a: 0.8618, b: 0.7222),
-    _Comp(halfTimeMin: 18.5, a: 0.7562, b: 0.7825),
-    _Comp(halfTimeMin: 27.0, a: 0.62, b: 0.8126),
-    _Comp(halfTimeMin: 38.3, a: 0.5043, b: 0.8434),
-    _Comp(halfTimeMin: 54.3, a: 0.441, b: 0.8693),
-    _Comp(halfTimeMin: 77.0, a: 0.4, b: 0.8910),
-    _Comp(halfTimeMin: 109.0, a: 0.375, b: 0.9092),
-    _Comp(halfTimeMin: 146.0, a: 0.35, b: 0.9222),
-    _Comp(halfTimeMin: 187.0, a: 0.3295, b: 0.9319),
-    _Comp(halfTimeMin: 239.0, a: 0.3065, b: 0.9403),
-    _Comp(halfTimeMin: 305.0, a: 0.2835, b: 0.9477),
-    _Comp(halfTimeMin: 390.0, a: 0.261, b: 0.9544),
-    _Comp(halfTimeMin: 498.0, a: 0.248, b: 0.9602),
-    _Comp(halfTimeMin: 635.0, a: 0.2327, b: 0.9653),
+  /// Source: https://github.com/subsurface/subsurface/blob/28ad7132d2283a3fc06872de6526bc19c077d203/core/deco.cpp#L86
+  /// The values are identical here: https://en.wikipedia.org/wiki/B%C3%BChlmann_decompression_algorithm#Versions
+  /// And it's still a mystery to me who copied from whom: https://github.com/subsurface/subsurface/commit/3c31d0401dd9e4be2aa51e1bb2b72e0bc162cb9d#diff-84b0c0dae55277ef04ce27c150ac08cecf73f905fcd045d1e65f64e062d70a4dR45
+  static const List<Zhl16cN2Compartment> comps = [
+    Zhl16cN2Compartment(halfTimeMin: 5.0, a: 1.1696, b: 0.5578),
+    Zhl16cN2Compartment(halfTimeMin: 8.0, a: 1.0, b: 0.6514),
+    Zhl16cN2Compartment(halfTimeMin: 12.5, a: 0.8618, b: 0.7222),
+    Zhl16cN2Compartment(halfTimeMin: 18.5, a: 0.7562, b: 0.7825),
+    Zhl16cN2Compartment(halfTimeMin: 27.0, a: 0.62, b: 0.8126),
+    Zhl16cN2Compartment(halfTimeMin: 38.3, a: 0.5043, b: 0.8434),
+    Zhl16cN2Compartment(halfTimeMin: 54.3, a: 0.441, b: 0.8693),
+    Zhl16cN2Compartment(halfTimeMin: 77.0, a: 0.4, b: 0.8910),
+    Zhl16cN2Compartment(halfTimeMin: 109.0, a: 0.375, b: 0.9092),
+    Zhl16cN2Compartment(halfTimeMin: 146.0, a: 0.35, b: 0.9222),
+    Zhl16cN2Compartment(halfTimeMin: 187.0, a: 0.3295, b: 0.9319),
+    Zhl16cN2Compartment(halfTimeMin: 239.0, a: 0.3065, b: 0.9403),
+    Zhl16cN2Compartment(halfTimeMin: 305.0, a: 0.2835, b: 0.9477),
+    Zhl16cN2Compartment(halfTimeMin: 390.0, a: 0.261, b: 0.9544),
+    Zhl16cN2Compartment(halfTimeMin: 498.0, a: 0.248, b: 0.9602),
+    Zhl16cN2Compartment(halfTimeMin: 635.0, a: 0.2327, b: 0.9653),
   ];
 
   /// Tissue N2 pressures (ATA) for 16 compartments.
@@ -211,12 +213,13 @@ class Zhl16cN2 {
   }
 }
 
-class _Comp {
+/// ZHL-16C nitrogen compartment parameters.
+class Zhl16cN2Compartment {
   final double halfTimeMin;
   final double a;
   final double b;
 
-  const _Comp({
+  const Zhl16cN2Compartment({
     required this.halfTimeMin,
     required this.a,
     required this.b,
