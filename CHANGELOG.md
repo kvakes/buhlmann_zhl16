@@ -1,3 +1,6 @@
+## 0.1.2
+- Documentation update: added explicit safety and liability disclaimer
+
 ## 0.1.1
 - Fix: published package now contains working ZHL-16C N2 model and profile types.
 

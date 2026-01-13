@@ -1,3 +1,8 @@
+/// WARNING:
+/// This library is NOT a dive planner and must not be used for real-world diving.
+/// For educational and experimental use only.
+library;
+
 import 'package:buhlmann_zhl16/buhlmann_zhl16.dart';
 
 void main() {
