@@ -8,9 +8,15 @@ import 'package:buhlmann_zhl16/buhlmann_zhl16.dart';
 void main() {
   final plan = Plan(dives: [
     Dive(steps: [
-      SquareSegment(depthMeters: 18, minutes: 40), // dive
-      SurfaceInterval(minutes: 60), // SI
-      SquareSegment(depthMeters: 12, minutes: 50), // repetitive dive
+      SquareSegment(depthMeters: 30, minutes: 10),
+      SquareSegment(depthMeters: 12, minutes: 40),
+      SquareSegment(depthMeters: 5, minutes: 3), // safety stop
+      SurfaceInterval(minutes: 60),
+    ]),
+    Dive(steps: [
+      SquareSegment(depthMeters: 18, minutes: 10),
+      SquareSegment(depthMeters: 10, minutes: 30),
+      SquareSegment(depthMeters: 5, minutes: 3), // safety stop
     ]),
   ]);
 
