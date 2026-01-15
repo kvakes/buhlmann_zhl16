@@ -6,7 +6,7 @@ void main() {
     test('SurfaceInterval is equivalent to depth=0 square segment on air', () {
       final steps = [
         SquareSegment(depthMeters: 30, minutes: 30), // load
-        SurfaceInterval(minutes: 60),                // offgas
+        SurfaceInterval(minutes: 60), // offgas
         SquareSegment(depthMeters: 18, minutes: 40), // repetitive dive
       ];
 
@@ -15,9 +15,14 @@ void main() {
 
       // Path B: manually apply the equivalent physics steps
       final manual = Zhl16cN2.atSurfaceEquilibrium();
-      manual.applySquareSegment(depthMeters: 30, durationMinutes: 30, fn2: 0.79);
-      manual.applySquareSegment(depthMeters: 0, durationMinutes: 60, fn2: 0.79); // surface interval equivalence
-      manual.applySquareSegment(depthMeters: 18, durationMinutes: 40, fn2: 0.79);
+      manual.applySquareSegment(
+          depthMeters: 30, durationMinutes: 30, fn2: 0.79);
+      manual.applySquareSegment(
+          depthMeters: 0,
+          durationMinutes: 60,
+          fn2: 0.79); // surface interval equivalence
+      manual.applySquareSegment(
+          depthMeters: 18, durationMinutes: 40, fn2: 0.79);
 
       // Compare per-compartment PN2 (integration correctness)
       expect(viaRunner.pn2.length, equals(manual.pn2.length));
@@ -31,8 +36,10 @@ void main() {
       }
 
       // Compare derived outputs too (optional but useful)
-      expect(viaRunner.ceilingAmbientAta(), closeTo(manual.ceilingAmbientAta(), 1e-12));
-      expect(viaRunner.ceilingDepthMeters(), equals(manual.ceilingDepthMeters()));
+      expect(viaRunner.ceilingAmbientAta(),
+          closeTo(manual.ceilingAmbientAta(), 1e-12));
+      expect(
+          viaRunner.ceilingDepthMeters(), equals(manual.ceilingDepthMeters()));
     });
   });
 }
