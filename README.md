@@ -1,6 +1,8 @@
 # buhlmann_zhl16
 
-Nitrogen-only Bühlmann ZHL-16B tissue model utilities for dive planning.
+Nitrogen-only Bühlmann ZHL-16C tissue model utilities for dive planning.
+
+I took compartment values for this model from https://github.com/subsurface/subsurface/blob/28ad7132d2283a3fc06872de6526bc19c077d203/core/deco.cpp#L86 which matches the values here https://en.wikipedia.org/wiki/B%C3%BChlmann_decompression_algorithm#Versions. I could not find any reputable sources for these values, so please read on.
 
 ## ⚠️ Safety & Liability Disclaimer ⚠️
 
@@ -30,22 +32,11 @@ If you need a real dive planner or decompression model, use certified dive compu
 
 ## Features
 
-- ZHL-16B N2 compartments
+- ZHL-16C N2 compartments
 - Square segments (constant depth for duration)
 - No ascent/descent (Schreiner) yet
 - No ceilings / gradient factors / deco schedule yet
 
 ## Usage
 
-```dart
-import 'package:buhlmann_zhl16/buhlmann_zhl16.dart';
-
-void main() {
-  final segs = [
-    const SquareSegment(depthMeters: 30, durationMinutes: 20),
-    const SquareSegment(depthMeters: 10, durationMinutes: 10),
-  ];
-
-  final model = Zhl16bN2.runSquareProfile(segs);
-  print(model.maxPn2());
-}
+See `example/buhlmann_zhl16_example.dart`.

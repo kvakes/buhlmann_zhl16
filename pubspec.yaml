@@ -1,6 +1,6 @@
 name: buhlmann_zhl16
-description: Bühlmann ZHL-16 tissue model utilities (nitrogen-only for now) for dive planning.
-version: 0.1.2
+description: Bühlmann ZHL-16C tissue model utilities (nitrogen-only for now) for dive planning.
+version: 0.1.3
 repository: https://github.com/kvakes/buhlmann_zhl16
 homepage: https://github.com/kvakes/buhlmann_zhl16
 issue_tracker: https://github.com/kvakes/buhlmann_zhl16/issues

@@ -1,3 +1,6 @@
+## 0.1.3
+- Documentation update: corrected the typo in documentation where it said "ZHL-16B" to "ZHL-16C."
+
 ## 0.1.2
 - Documentation update: added explicit safety and liability disclaimer
 
